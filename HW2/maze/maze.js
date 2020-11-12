@@ -1,5 +1,54 @@
-// count: the number of mazes
-var ctxs, wid, hei, cols, rows, mazes, stacks = [], start = [{x:-1, y:-1}, {x:-1, y:-1}], end = [{x:-1, y:-1}, {x:-1, y:-1}],grid = 8, padding = 16, s, density=0.5, count=3;
+var ctxs, wid, hei, cols, rows, mazes, stacks = [], start = [{x:-1, y:-1}, {x:-1, y:-1}], end = [{x:-1, y:-1}, {x:-1, y:-1}],grid = 8, padding = 16, s, density=0.5, count=4;
+var startTime;
+var finished = 0;
+var prev;
+var pq;
+
+class PriorityQueue {
+    constructor() {
+        this.pq = [0];
+    }
+
+    enqueue(k) {
+        this.pq.push(k);
+        this.swim(this.pq.length - 1);
+    }
+
+    dequeue() {
+        var min = this.pq[1];
+        this.pq[1] = this.pq[this.pq.length - 1];
+        this.pq.pop();
+        this.sink(1);
+        return min;
+    }
+
+    sink(k) {
+        while((k << 1) <= this.pq.length - 1) {
+            var j = k << 1;
+            if(j < this.pq.length - 1 && this.pq[j + 1].f < this.pq[j].f) j++;
+            if(this.pq[k].f < this.pq[j].f) break;
+
+            var t = this.pq[k];
+            this.pq[k] = this.pq[j];
+            this.pq[j] = t;
+            k = j;
+        }
+    }
+
+    swim(k) {
+        while(k > 1 && this.pq[k].f < this.pq[k >> 1].f) {
+            var t = this.pq[k];
+            this.pq[k] = this.pq[k >> 1];
+            this.pq[k >> 1] = t;
+            k = k >> 1;
+        }
+    }
+
+    isEmpty() {
+        return this.pq.length == 1;
+    }
+}
+
 function drawMaze(index) {
     for( var i = 0; i < cols; i++ ) {
         for( var j = 0; j < rows; j++ ) {
@@ -205,7 +254,6 @@ function insertionSort(n, dist) {
         dist[j + 1] = key;
         n[j + 1] = p;
     }
-    console.log(dist);
     return n;
 }
 
@@ -229,6 +277,28 @@ function getFNeighboursEuclid(index, sx, sy, a) {
     }
     return insertionSort(n, dist);
 }
+
+function resetTime() {
+    document.getElementById("timer1").innerHTML = "Time: 0.00s";
+    document.getElementById("timer2").innerHTML = "Time: 0.00s";
+    document.getElementById("timer3").innerHTML = "Time: 0.00s";
+    document.getElementById("timer4").innerHTML = "Time: 0.00s";
+}
+
+function setTimer(index) {
+    var timeElapsed = performance.now() - startTime;
+    timeElapsed = (timeElapsed / 1000).toFixed(2);
+    document.getElementById("timer" + (index + 1)).innerHTML = "Time: " + timeElapsed + "s";
+}
+
+function tryEnableClear() {
+    finished++;
+    if(finished == count) {
+        document.getElementById("btnClear").removeAttribute("disabled");
+        document.getElementById("btnCreateMaze").removeAttribute("disabled");
+        finished = 0;
+    }
+}
 // ordinary DFS
 function solveMaze1(index) {
     if( start[index].x == end[index].x && start[index].y == end[index].y ) {
@@ -240,10 +310,12 @@ function solveMaze1(index) {
             }
         }
         drawMaze(index);
-        document.getElementById("btnClear").removeAttribute("disabled");
-        document.getElementById("btnCreateMaze").removeAttribute("disabled");
+        tryEnableClear();
         return;
     }
+
+    setTimer(index);
+
     var neighbours = getFNeighbours( index, start[index].x, start[index].y, 0 );
     if( neighbours.length ) {
         stacks[index].push( start[index] );
@@ -272,10 +344,12 @@ function solveMaze1New(index) {
             }
         }
         drawMaze(index);
-        document.getElementById("btnClear").removeAttribute("disabled");
-        document.getElementById("btnCreateMaze").removeAttribute("disabled");
+        tryEnableClear();
         return;
     }
+
+    setTimer(index);
+
     var neighbours = getFNeighboursNew( index, start[index].x, start[index].y, 0 );
     if( neighbours.length ) {
         stacks[index].push( start[index] );
@@ -303,10 +377,12 @@ function solveMaze1Euclid(index) {
             }
         }
         drawMaze(index);
-        document.getElementById("btnClear").removeAttribute("disabled");
-        document.getElementById("btnCreateMaze").removeAttribute("disabled");
+        tryEnableClear();
         return;
     }
+
+    setTimer(index);
+
     var neighbours = getFNeighboursEuclid( index, start[index].x, start[index].y, 0 );
     if( neighbours.length ) {
         stacks[index].push( start[index] );
@@ -323,6 +399,48 @@ function solveMaze1Euclid(index) {
     } );
 }
 
+function solveMaze1Astar(index) {
+    if( start[index].x == end[index].x && start[index].y == end[index].y ) {
+        // mark the solution on the maze
+        while(prev[start[index].x][start[index].y].x != start[index].x || prev[start[index].x][start[index].y].y != start[index].y) {
+            var x = start[index].x;
+            var y = start[index].y;
+            console.log(x + " " + y);
+            mazes[index][x][y] = 3;
+            start[index].x = prev[x][y].x;
+            start[index].y = prev[x][y].y;
+        }
+        mazes[index][start[index].x][start[index].y] = 9;
+        drawMaze(index);
+        tryEnableClear();
+        return;
+    }
+
+    setTimer(index);
+ 
+    var cur = pq.dequeue();
+    while(mazes[index][cur.x][cur.y] == 2) {
+        cur = pq.dequeue();
+    }
+    start[index].x = cur.x;
+    start[index].y = cur.y;
+    mazes[index][cur.x][cur.y] = 2;
+    var neighbours = getFNeighbours( index, start[index].x, start[index].y, 0 );
+    if(neighbours.length) {
+        for(var i = 0; i < neighbours.length; i++) {
+            pq.enqueue({x: neighbours[i].x, y: neighbours[i].y, g: cur.g + 1,f: (cur.g + 1) + getH(neighbours[i], end[index])});
+            prev[neighbours[i].x][neighbours[i].y] = {x: start[index].x, y: start[index].y};
+        }
+    } else {
+        mazes[index][start[index].x][start[index].y] = 4;
+    }
+    drawMaze(index);
+    // request a frame for animation, BUT THE CALLBACK FUNCTION WON'T BE CALLED IMMEDIATELY, hence the stack to simulate DFS
+    requestAnimationFrame( function() {
+        solveMaze1Astar(index);
+    } );
+}
+
 function getCursorPos( event ) {
     var rect = this.getBoundingClientRect();
     var x = Math.floor( ( event.clientX - rect.left ) / grid / s), 
@@ -335,6 +453,7 @@ function getCursorPos( event ) {
 
     if( mazes[0][x][y] ) return;
     if( start[0].x == -1 ) {
+        resetTime();
         for(var i = 0; i < count; i++) {
             start[i] = {x: x, y: y};
             mazes[i][start[i].x][start[i].y] = 9;
@@ -349,12 +468,35 @@ function getCursorPos( event ) {
             mazes[i][end[i].x][end[i].y] = 8;
         }
         
+        startTime = performance.now();
+        endTime = new Array(count);
         document.getElementById("btnClear").setAttribute("disabled", "disabled");
         document.getElementById("btnCreateMaze").setAttribute("disabled", "disabled");
         solveMaze1(0);
         solveMaze1New(1);
         solveMaze1Euclid(2);
+
+
+        pq = new PriorityQueue();
+        pq.enqueue({x: start[3].x, y: start[3].y, g: 0, f: getH(start[3], end[3])});
+        prev = new Array(cols);
+        for(var i = 0; i < prev.length; i++) {
+            prev[i] = new Array(rows);
+            for(var j = 0; j < prev.length; j++) {
+                prev[i] = {x: -1, y: -1};
+            }
+        }
+        prev[start[3].x][start[3].y] = {x: start[3].x, y: start[3].y};
+        solveMaze1Astar(3);
     }
+}
+
+function getH(p1, p2) {
+    return Math.pow(manhattanDist(p1, p2), 2);
+}
+
+function manhattanDist(p1, p2) {
+    return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 }
 
 // used in creating
@@ -561,6 +703,8 @@ function init() {
 
 function onCreate() {
 
+    finished = 0;
+    resetTime();
     stacks = new Array(count);
     for(var i = 0; i < count; i++) {
         stacks[i] = [];
@@ -644,10 +788,13 @@ function onSltType() {
 // redraw the maze, the second loop is to clear the edge of yellow rectangles
 // reset start point and end point
 function onClear() {
+
+    finished = 0;
+    resetTime();
     for(var i = 0; i < count; i++){
         for(var j = 0; j < cols; j++){
             for( var k = 0; k < rows; k++) {
-                if(mazes[i][j][k] == 3 || mazes[i][j][k] == 4 || mazes[i][j][k] == 8 || mazes[i][j][k] == 9) {
+                if(mazes[i][j][k] == 2 ||mazes[i][j][k] == 3 || mazes[i][j][k] == 4 || mazes[i][j][k] == 8 || mazes[i][j][k] == 9) {
                     mazes[i][j][k] = 0;
                 }    
             }

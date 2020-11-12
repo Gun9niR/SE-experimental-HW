@@ -10,14 +10,17 @@
 - Disable "clear" when drawing the canvas and enable it once it's done
 - Disable "create" and "clear" when solving the canvas and enable it once it's done 
 - Make all functions extensible
-- Add the third canvas, using DFS but with Euclidean distance as the cost
+- Add the third canvas, implementing DFS but with Euclidean distance as the cost
+- Add the fourth canvas, implementing A* algorithm
+- Add timer for each algorithm
+- Temporarily remove side bar
 
 # To-do
-- [ ] Try out A-star algorithm
+- [x] Try out A-star algorithm
 - [x] Use Euclidean distance as cost
-- [ ] Add a page for introduction
-- [ ] Display the time consumed for each algorithm
+- [x] Display the time consumed for each algorithm
 - [ ] Solve the maze for Maze2
 - [x] Disable "clear" when drawing canvas
-- [ ] Add an interrupt option
+- [ ] Add an interrupt button
 - [ ] Change content on the side bar
+- [ ] Add auto test to evaluate all algorithms

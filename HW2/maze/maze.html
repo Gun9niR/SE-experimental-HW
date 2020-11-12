@@ -12,24 +12,6 @@
     <body onload="init()">
         <div class="container">
             <div id="main" class="columns">
-                <div id="menu" class="column col-2">
-                    <ul class="nav sidebar">
-                        <li class="nav-item">
-                            <a href="#">Getting Started</a>
-                            <ul class="nav">
-                            <li class="nav-item">
-                                <a href="#">Introduction</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#">Setings</a>
-                            </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#">Maze</a>
-                        </li>
-                    </ul>                
-                </div>
                 <div id="main" class="column col-10">
                     <div class="columns">
                         <div id="content" class="column col-11 col-mx-auto col-text-center">
@@ -55,10 +37,19 @@
                                         <button id="btnClear" class="btn btn-sm input-group-btn" onclick="onClear()">Clear</button>
                                     </div> 
                                 </div>
+                                <span class="column col-6">DFS</span>
+                                <span class="column col-6">DFS with Manhattan distance as cost</span>
                                 <div id="maze1" class="column col-6"></div>
                                 <div id="maze2" class="column col-6"></div>
+                                <span id="timer1" class="column col-6">Time: 0.00s</span>
+                                <span id="timer2" class="column col-6">Time: 0.00s</span>
+                                <hr class="column col-12">
+                                <span class="column col-6">DFS with Euclidean distance as cost</span>
+                                <span class="column col-6">A* ( h = (Manhattan Distance) ^ 2 )</span>
                                 <div id="maze3" class="column col-6"></div>
-                                <div id="footer" class="column col-12">Footer</div>        
+                                <div id="maze4" class="column col-6"></div>
+                                <span id="timer3" class="column col-6">Time: 0.00s</span>
+                                <span id="timer4" class="column col-6">Time: 0.00s</span> 
                             </div>
                         </div>
                     </div>
