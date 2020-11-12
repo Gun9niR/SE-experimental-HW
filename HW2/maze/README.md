@@ -14,13 +14,14 @@
 - Add the fourth canvas, implementing A* algorithm
 - Add timer for each algorithm
 - Temporarily remove side bar
+- Add "Interrupt" button
 
 # To-do
 - [x] Try out A-star algorithm
 - [x] Use Euclidean distance as cost
 - [x] Display the time consumed for each algorithm
 - [ ] Solve the maze for Maze2
-- [x] Disable "clear" when drawing canvas
-- [ ] Add an interrupt button
+- [x] Disable "Clear" when drawing canvas
+- [x] Add an "Interrupt" button
 - [ ] Change content on the side bar
 - [ ] Add auto test to evaluate all algorithms

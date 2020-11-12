@@ -1,8 +1,11 @@
 var ctxs, wid, hei, cols, rows, mazes, stacks = [], start = [{x:-1, y:-1}, {x:-1, y:-1}], end = [{x:-1, y:-1}, {x:-1, y:-1}],grid = 8, padding = 16, s, density=0.5, count=4;
 var startTime;
 var finished = 0;
+var isInterrupting;
+var interrupted = 0;
 var prev;
 var pq;
+
 
 class PriorityQueue {
     constructor() {
@@ -291,17 +294,22 @@ function setTimer(index) {
     document.getElementById("timer" + (index + 1)).innerHTML = "Time: " + timeElapsed + "s";
 }
 
-function tryEnableClear() {
+function incrFinished() {
     finished++;
     if(finished == count) {
         document.getElementById("btnClear").removeAttribute("disabled");
         document.getElementById("btnCreateMaze").removeAttribute("disabled");
+        document.getElementById("btnInterrupt").setAttribute("disabled", "disabled");
         finished = 0;
     }
 }
 // ordinary DFS
 function solveMaze1(index) {
-    if( start[index].x == end[index].x && start[index].y == end[index].y ) {
+    if(isInterrupting) {
+        interrupt();
+        return;
+    }
+    if( start[index].x == end[index].x && start[index].y == end[index].y) {
         for( var i = 0; i < cols; i++ ) {
             for( var j = 0; j < rows; j++ ) {
                 switch( mazes[index][i][j] ) {
@@ -310,10 +318,10 @@ function solveMaze1(index) {
             }
         }
         drawMaze(index);
-        tryEnableClear();
+        incrFinished();
         return;
     }
-
+    
     setTimer(index);
 
     var neighbours = getFNeighbours( index, start[index].x, start[index].y, 0 );
@@ -334,8 +342,11 @@ function solveMaze1(index) {
 
 // DFS, but pick the point closer to the end point first
 function solveMaze1New(index) {
-
-    if( start[index].x == end[index].x && start[index].y == end[index].y ) {
+    if(isInterrupting) {
+        interrupt();
+        return;
+    }
+    if( start[index].x == end[index].x && start[index].y == end[index].y) {
         for( var i = 0; i < cols; i++ ) {
             for( var j = 0; j < rows; j++ ) {
                 switch( mazes[index][i][j] ) {
@@ -344,10 +355,10 @@ function solveMaze1New(index) {
             }
         }
         drawMaze(index);
-        tryEnableClear();
+        incrFinished();
         return;
     }
-
+    
     setTimer(index);
 
     var neighbours = getFNeighboursNew( index, start[index].x, start[index].y, 0 );
@@ -368,7 +379,12 @@ function solveMaze1New(index) {
 }
 
 function solveMaze1Euclid(index) {
-    if( start[index].x == end[index].x && start[index].y == end[index].y ) {
+    if(isInterrupting) {
+        interrupt();
+        return;
+    }
+
+    if( start[index].x == end[index].x && start[index].y == end[index].y) {
         for( var i = 0; i < cols; i++ ) {
             for( var j = 0; j < rows; j++ ) {
                 switch( mazes[index][i][j] ) {
@@ -377,7 +393,7 @@ function solveMaze1Euclid(index) {
             }
         }
         drawMaze(index);
-        tryEnableClear();
+        incrFinished();
         return;
     }
 
@@ -400,19 +416,23 @@ function solveMaze1Euclid(index) {
 }
 
 function solveMaze1Astar(index) {
-    if( start[index].x == end[index].x && start[index].y == end[index].y ) {
+    if(isInterrupting) {
+        interrupt();
+        return;
+    }
+
+    if( start[index].x == end[index].x && start[index].y == end[index].y) {
         // mark the solution on the maze
         while(prev[start[index].x][start[index].y].x != start[index].x || prev[start[index].x][start[index].y].y != start[index].y) {
             var x = start[index].x;
             var y = start[index].y;
-            console.log(x + " " + y);
             mazes[index][x][y] = 3;
             start[index].x = prev[x][y].x;
             start[index].y = prev[x][y].y;
         }
         mazes[index][start[index].x][start[index].y] = 9;
         drawMaze(index);
-        tryEnableClear();
+        incrFinished();
         return;
     }
 
@@ -472,6 +492,7 @@ function getCursorPos( event ) {
         endTime = new Array(count);
         document.getElementById("btnClear").setAttribute("disabled", "disabled");
         document.getElementById("btnCreateMaze").setAttribute("disabled", "disabled");
+        document.getElementById("btnInterrupt").removeAttribute("disabled");
         solveMaze1(0);
         solveMaze1New(1);
         solveMaze1Euclid(2);
@@ -699,6 +720,8 @@ function createCanvas(count) {
 
 function init() {
     createCanvas(count);
+    document.getElementById("btnInterrupt").setAttribute("disabled", "disabled");
+    document.getElementById("btnClear").setAttribute("disabled", "disabled");
 }
 
 function onCreate() {
@@ -814,5 +837,21 @@ function onClear() {
         stacks[i]=[];
         start[i].x = start[i].y = -1;
         end[i].x = end[i].y = -1;
+    }
+}
+
+function onInterrupt() {
+    isInterrupting = true;
+    onClear();
+}
+
+function interrupt() {
+    interrupted++;
+    if(interrupted == count) {
+        document.getElementById("btnInterrupt").setAttribute("disabled", "disabled");
+        document.getElementById("btnClear").removeAttribute("disabled");
+        document.getElementById("btnCreateMaze").removeAttribute("disabled");
+        interrupted = 0;
+        isInterrupting = false;
     }
 }
