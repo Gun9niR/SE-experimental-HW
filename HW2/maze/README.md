@@ -20,6 +20,7 @@
 ## 11/13
 - Add solution for Maze2
 - Add a "Help" prompt dialogue
+- Add counter of iterations for each algorithm
 
 # To-do
 - [x] Try out A-star algorithm
@@ -30,7 +31,7 @@
 - [x] Add an "Interrupt" button
 - [x] Remove side bar and replace it with a promt dialogue
 - [ ] Add auto test to evaluate all algorithms
-- [ ] Count the number of blocks visited besides time
+- [x] Count the number of blocks visited besides time
 - [ ] Use call back functions to optimize the code
 
 # Comparison of algorithms

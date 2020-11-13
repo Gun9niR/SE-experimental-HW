@@ -5,7 +5,7 @@ var isInterrupting;
 var interrupted = 0;
 var prev;
 var pq;
-
+var iterations = [];
 
 class PriorityQueue {
     constructor() {
@@ -461,10 +461,17 @@ function resetTime() {
     document.getElementById("timer4").innerHTML = "Time: 0.00s";
 }
 
-function setTimer(index) {
+function incrLabel(index) {
     var timeElapsed = performance.now() - startTime;
     timeElapsed = (timeElapsed / 1000).toFixed(2);
-    document.getElementById("timer" + (index + 1)).innerHTML = "Time: " + timeElapsed + "s";
+    iterations[index]++;
+    document.getElementById("timer" + (index + 1)).innerHTML = "Time: " + timeElapsed + "s    Iterations:" + " " + iterations[index];
+}
+
+function displayLabel(index) {
+    var timeElapsed = performance.now() - startTime;
+    timeElapsed = (timeElapsed / 1000).toFixed(2);
+    document.getElementById("timer" + (index + 1)).innerHTML = "Time: " + timeElapsed + "s    Iterations:" + " " + iterations[index];
 }
 
 function incrFinished() {
@@ -495,7 +502,7 @@ function solveMaze1(index) {
         return;
     }
     
-    setTimer(index);
+    incrLabel(index);
 
     var neighbours = getFNeighbours( index, start[index].x, start[index].y, 0 );
     if( neighbours.length ) {
@@ -531,7 +538,7 @@ function solveMaze2(index) {
         return;
     }
     
-    setTimer(index);
+    incrLabel(index);
 
     var neighbours = getFNeighbours2( index, start[index].x, start[index].y, 0 );
     if( neighbours.length ) {
@@ -573,7 +580,7 @@ function solveMaze1New(index) {
         return;
     }
     
-    setTimer(index);
+    incrLabel(index);
 
     var neighbours = getFNeighboursNew( index, start[index].x, start[index].y, 0 );
     if( neighbours.length ) {
@@ -610,7 +617,7 @@ function solveMaze2New(index) {
         return;
     }
     
-    setTimer(index);
+    incrLabel(index);
 
     var neighbours = getFNeighboursNew2( index, start[index].x, start[index].y, 0 );
     if( neighbours.length ) {
@@ -654,7 +661,7 @@ function solveMaze1Euclid(index) {
         return;
     }
 
-    setTimer(index);
+    incrLabel(index);
 
     var neighbours = getFNeighboursEuclid( index, start[index].x, start[index].y, 0 );
     if( neighbours.length ) {
@@ -691,7 +698,7 @@ function solveMaze2Euclid(index) {
         return;
     }
 
-    setTimer(index);
+    incrLabel(index);
 
     var neighbours = getFNeighboursEuclid2( index, start[index].x, start[index].y, 0 );
     if( neighbours.length ) {
@@ -743,7 +750,7 @@ function solveMaze1Astar(index) {
         return;
     }
 
-    setTimer(index);
+    incrLabel(index);
  
     var cur = pq.dequeue();
     while(mazes[index][cur.x][cur.y] == 2) {
@@ -800,7 +807,7 @@ function solveMaze2Astar(index) {
         return;
     }
 
-    setTimer(index);
+    incrLabel(index);
  
     if(pq.isEmpty()) {
         mazes[index][start[index].x][start[index].y] = 5;
@@ -854,6 +861,7 @@ function getCursorPos( event ) {
     if( mazes[0][x][y] ) return;
     if( start[0].x == -1 ) {
         resetTime();
+        resetIterations();
         for(var i = 0; i < count; i++) {
             start[i] = {x: x, y: y};
             mazes[i][start[i].x][start[i].y] = 9;
@@ -1120,6 +1128,7 @@ function onCreate() {
 
     finished = 0;
     resetTime();
+    resetIterations();
     stacks = new Array(count);
     for(var i = 0; i < count; i++) {
         stacks[i] = [];
@@ -1199,6 +1208,12 @@ function onSltType() {
     }
 }
 
+function resetIterations() {
+    for(var i = 0; i < count; i++) {
+        iterations[i] = 0;
+    }
+}
+
 // clear solution on the maze
 // redraw the maze, the second loop is to clear the edge of yellow rectangles
 // reset start point and end point
@@ -1206,6 +1221,12 @@ function onClear() {
 
     finished = 0;
     resetTime();
+    resetIterations();
+    
+    for(var i = 0; i < count; i++) {
+        displayLabel(i);
+    }
+
     for(var i = 0; i < count; i++){
         for(var j = 0; j < cols; j++){
             for( var k = 0; k < rows; k++) {
