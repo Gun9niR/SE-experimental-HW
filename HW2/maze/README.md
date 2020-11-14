@@ -1,3 +1,6 @@
+# Maze Game
+The webpage is hosted [here](https://gun9nir.github.io/Maze-Game/).
+
 # Issues
 - ~~Clicking "clear" when drawing canvas will cause the program to crash.~~
 - ~~`drawBlock()` is never used.~~
