@@ -531,8 +531,10 @@ function solveMaze1(index, test) {
         mazes[index][start[index].x][start[index].y] = 4;
         start[index] = stacks[index].pop();
     }
- 
-    drawMaze(index);
+    
+    if(document.getElementById("chkProcess").checked) {
+        drawMaze(index);
+    }
     requestAnimationFrame( function() {
         solveMaze1(index, test);
     } );
@@ -585,16 +587,38 @@ function solveMaze2(index, test) {
         mazes[index][start[index].x][start[index].y] = 2;
     } else {
         if(stacks[index].length == 0) {
-            mazes[index][start[index].x][start[index].y] = 5;
-            drawMaze(index);
-            incrFinished();
-            return;
+            if(test == false || totalIterations[index] == testTime) {
+                mazes[index][start[index].x][start[index].y] = 5;
+                drawMaze(index);
+                incrFinished();
+                return;
+            } else {
+                totalIterations[index]++;
+                incrLabel(index, test);
+                for(var j = 0; j < cols; j++){
+                    for( var k = 0; k < rows; k++) {
+                        if(mazes[index][j][k] != 0 && mazes[index][j][k] != 1) {
+                            mazes[index][j][k] = 0;
+                        }    
+                    }
+                }
+                getRandomStartNEnd(index);
+                mazes[index][start[index].x][start[index].y] = 9;
+                mazes[index][end[index].x][end[index].y] = 8;
+                drawMaze(index);
+                requestAnimationFrame( function() {
+                    solveMaze2(index, test);
+                } );
+                return;
+            }
         }
         mazes[index][start[index].x][start[index].y] = 4;
         start[index] = stacks[index].pop();
     }
  
-    drawMaze(index);
+    if(document.getElementById("chkProcess").checked) {
+        drawMaze(index);
+    }
     requestAnimationFrame( function() {
         solveMaze2(index, test);
     } );
@@ -650,7 +674,9 @@ function solveMaze1New(index, test) {
         start[index] = stacks[index].pop();
     }
  
-    drawMaze(index);
+    if(document.getElementById("chkProcess").checked) {
+        drawMaze(index);
+    }
     // request a frame for animation, BUT THE CALLBACK FUNCTION WON'T BE CALLED IMMEDIATELY, hence the stack to simulate DFS
     requestAnimationFrame( function() {
         solveMaze1New(index, test);
@@ -704,16 +730,38 @@ function solveMaze2New(index, test) {
         mazes[index][start[index].x][start[index].y] = 2;
     } else {
         if(stacks[index].length == 0) {
-            mazes[index][start[index].x][start[index].y] = 5;
-            drawMaze(index);
-            incrFinished();
-            return;
+            if(test == false || totalIterations[index] == testTime) {
+                mazes[index][start[index].x][start[index].y] = 5;
+                drawMaze(index);
+                incrFinished();
+                return;
+            } else {
+                totalIterations[index]++;
+                incrLabel(index, test);
+                for(var j = 0; j < cols; j++){
+                    for( var k = 0; k < rows; k++) {
+                        if(mazes[index][j][k] != 0 && mazes[index][j][k] != 1) {
+                            mazes[index][j][k] = 0;
+                        }    
+                    }
+                }
+                getRandomStartNEnd(index);
+                mazes[index][start[index].x][start[index].y] = 9;
+                mazes[index][end[index].x][end[index].y] = 8;
+                drawMaze(index);
+                requestAnimationFrame( function() {
+                    solveMaze2New(index, test);
+                } );
+                return;
+            }
         }
         mazes[index][start[index].x][start[index].y] = 4;
         start[index] = stacks[index].pop();
     }
  
-    drawMaze(index);
+    if(document.getElementById("chkProcess").checked) {
+        drawMaze(index);
+    }
     // request a frame for animation, BUT THE CALLBACK FUNCTION WON'T BE CALLED IMMEDIATELY, hence the stack to simulate DFS
     requestAnimationFrame( function() {
         solveMaze2New(index, test);
@@ -772,7 +820,9 @@ function solveMaze1Euclid(index, test) {
         start[index] = stacks[index].pop();
     }
  
-    drawMaze(index);
+    if(document.getElementById("chkProcess").checked) {
+        drawMaze(index);
+    }
     requestAnimationFrame( function() {
         solveMaze1Euclid(index, test);
     } );
@@ -827,16 +877,38 @@ function solveMaze2Euclid(index, test) {
         mazes[index][start[index].x][start[index].y] = 2;
     } else {
         if(stacks[index].length == 0) {
-            mazes[index][start[index].x][start[index].y] = 5;
-            drawMaze(index);
-            incrFinished();
-            return;
+            if(test == false || totalIterations[index] == testTime) {
+                mazes[index][start[index].x][start[index].y] = 5;
+                drawMaze(index);
+                incrFinished();
+                return;
+            } else {
+                totalIterations[index]++;
+                incrLabel(index, test);
+                for(var j = 0; j < cols; j++){
+                    for( var k = 0; k < rows; k++) {
+                        if(mazes[index][j][k] != 0 && mazes[index][j][k] != 1) {
+                            mazes[index][j][k] = 0;
+                        }    
+                    }
+                }
+                getRandomStartNEnd(index);
+                mazes[index][start[index].x][start[index].y] = 9;
+                mazes[index][end[index].x][end[index].y] = 8;
+                drawMaze(index);
+                requestAnimationFrame( function() {
+                    solveMaze2Euclid(index, test);
+                } );
+                return;
+            }
         }
         mazes[index][start[index].x][start[index].y] = 4;
         start[index] = stacks[index].pop();
     }
  
-    drawMaze(index);
+    if(document.getElementById("chkProcess").checked) {
+        drawMaze(index);
+    }
     requestAnimationFrame( function() {
         solveMaze2Euclid(index, test);
     } );
@@ -921,7 +993,9 @@ function solveMaze1Astar(index, test) {
     } else {
         mazes[index][start[index].x][start[index].y] = 4;
     }
-    drawMaze(index);
+    if(document.getElementById("chkProcess").checked) {
+        drawMaze(index);
+    }
     // request a frame for animation, BUT THE CALLBACK FUNCTION WON'T BE CALLED IMMEDIATELY, hence the stack to simulate DFS
     requestAnimationFrame( function() {
         solveMaze1Astar(index, test);
@@ -987,18 +1061,80 @@ function solveMaze2Astar(index, test) {
     incrLabel(index, test);
  
     if(pq.isEmpty()) {
-        mazes[index][start[index].x][start[index].y] = 5;
-        drawMaze(index);
-        incrFinished();
-        return;
-    }
-    var cur = pq.dequeue();
-    while(mazes[index][cur.x][cur.y] == 2) {
-        if(pq.isEmpty()) {
+        if(test == false || totalIterations[index] == testTime) {
             mazes[index][start[index].x][start[index].y] = 5;
             drawMaze(index);
             incrFinished();
             return;
+        } else {
+            totalIterations[index]++;
+            incrLabel(index, test);
+            for(var j = 0; j < cols; j++){
+                for( var k = 0; k < rows; k++) {
+                    if(mazes[index][j][k] != 0 && mazes[index][j][k] != 1) {
+                        mazes[index][j][k] = 0;
+                    }    
+                }
+            }
+            getRandomStartNEnd(index);
+            
+            pq = new PriorityQueue();
+            pq.enqueue({x: start[index].x, y: start[index].y, g: 0, f: getH(start[index], end[index])});
+            prev = new Array(cols);
+            for(var i = 0; i < prev.length; i++) {
+                prev[i] = new Array(rows);
+                for(var j = 0; j < prev.length; j++) {
+                    prev[i] = {x: -1, y: -1};
+                }
+            }
+            prev[start[index].x][start[index].y] = {x: start[index].x, y: start[index].y};
+            mazes[index][start[index].x][start[index].y] = 9;
+            mazes[index][end[index].x][end[index].y] = 8;
+            drawMaze(index);
+            requestAnimationFrame( function() {
+                solveMaze2Astar(index, test);
+            } );
+            return;
+        }
+    }
+    var cur = pq.dequeue();
+    while(mazes[index][cur.x][cur.y] == 2) {
+        if(pq.isEmpty()) {
+            if(test == false || totalIterations[index] == testTime) {
+                mazes[index][start[index].x][start[index].y] = 5;
+                drawMaze(index);
+                incrFinished();
+                return;
+            } else {
+                totalIterations[index]++;
+                incrLabel(index, test);
+                for(var j = 0; j < cols; j++){
+                    for( var k = 0; k < rows; k++) {
+                        if(mazes[index][j][k] != 0 && mazes[index][j][k] != 1) {
+                            mazes[index][j][k] = 0;
+                        }    
+                    }
+                }
+                getRandomStartNEnd(index);
+                
+                pq = new PriorityQueue();
+                pq.enqueue({x: start[index].x, y: start[index].y, g: 0, f: getH(start[index], end[index])});
+                prev = new Array(cols);
+                for(var i = 0; i < prev.length; i++) {
+                    prev[i] = new Array(rows);
+                    for(var j = 0; j < prev.length; j++) {
+                        prev[i] = {x: -1, y: -1};
+                    }
+                }
+                prev[start[index].x][start[index].y] = {x: start[index].x, y: start[index].y};
+                mazes[index][start[index].x][start[index].y] = 9;
+                mazes[index][end[index].x][end[index].y] = 8;
+                drawMaze(index);
+                requestAnimationFrame( function() {
+                    solveMaze2Astar(index, test);
+                } );
+                return;
+            }
         }
         cur = pq.dequeue();
     }
@@ -1018,7 +1154,9 @@ function solveMaze2Astar(index, test) {
     } else {
         mazes[index][start[index].x][start[index].y] = 4;
     }
-    drawMaze(index);
+    if(document.getElementById("chkProcess").checked) {
+        drawMaze(index);
+    }
     // request a frame for animation, BUT THE CALLBACK FUNCTION WON'T BE CALLED IMMEDIATELY, hence the stack to simulate DFS
     requestAnimationFrame( function() {
         solveMaze2Astar(index, test);
@@ -1464,6 +1602,9 @@ function onTest() {
     for(var i = 0; i < count; i++) {
         totalIterations[i] = 0;
         getRandomStartNEnd(i);
+        mazes[i][start[i].x][start[i].y] = 9;
+        mazes[i][end[i].x][end[i].y] = 8;
+        drawMaze(i);
     }
     startTime = performance.now();
     
@@ -1501,4 +1642,24 @@ function getRandomStartNEnd(index) {
         end[index].x = parseInt(Math.random() * cols);;
         end[index].y = parseInt(Math.random() * rows);;
     } while(mazes[index][start[index].x][start[index].y] || mazes[index][end[index].x][end[index].y]);
+}
+
+function onDisplayProcess() {
+    for(var index = 0; index < count; index++) {
+        for( var i = 0; i < cols; i++ ) {
+            for( var j = 0; j < rows; j++ ) {
+                switch( mazes[index][i][j] ) {
+                    case 2: 
+                    case 4: 
+                    case 0: ctxs[index].fillStyle = "black"; break;
+                    case 1: ctxs[index].fillStyle = "gray"; break;
+                    case 3: ctxs[index].fillStyle = "yellow"; break;
+                    case 5: ctxs[index].fillStyle = "purple"; break;
+                    case 8: ctxs[index].fillStyle = "blue"; break;
+                    case 9: ctxs[index].fillStyle = "gold"; break;
+                }
+                ctxs[index].fillRect( grid * i, grid * j, grid, grid  );
+            }
+        }
+    }
 }
