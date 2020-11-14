@@ -36,7 +36,7 @@
                                         <button id="btnCreateMaze" class="btn btn-sm input-group-btn" onclick="onCreate()">Create</button>
                                         <button id="btnClear" class="btn btn-sm input-group-btn" onclick="onClear()">Clear</button>
                                         <button id="btnInterrupt" class="btn btn-sm input-group-btn" onclick="onInterrupt()">Interrupt</button>
-                                        
+                                        <button id="btnAutoTest" class="btn btn-sm input-group-btn" onclick="onTest()">Auto test</button>
                                         <a class="btn btn-sm" href="#help">Help</a>
                                         <div class="modal" id="help">
                                             <a class="modal-overlay" href="#modals" aria-label="Close"></a>
@@ -74,7 +74,7 @@
                                 </div>
                                             
                                 <span class="column col-6">DFS</span>
-                                <span class="column col-6">DFS with Manhattan distance as cost</span>
+                                <span class="column col-6">DFS picking the closest point to finishing point</span>
                                 <div id="maze1" class="column col-6"></div>
                                 <div id="maze2" class="column col-6"></div>
                                 <span id="timer1" class="column col-6">Time: 0.00s    Iterations: 0</span>
