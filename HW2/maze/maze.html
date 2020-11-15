@@ -36,7 +36,8 @@
                                         <button id="btnCreateMaze" class="btn btn-sm input-group-btn" onclick="onCreate()">Create</button>
                                         <button id="btnClear" class="btn btn-sm input-group-btn" onclick="onClear()">Clear</button>
                                         <button id="btnInterrupt" class="btn btn-sm input-group-btn" onclick="onInterrupt()">Interrupt</button>
-                                        <button id="btnAutoTest" class="btn btn-sm input-group-btn" onclick="onTest()">Auto test</button>
+                                        <button id="btnAutoTest" class="btn btn-sm input-group-btn" onclick="onTestIter()">Auto test iterations</button>
+                                        <button id="btnAutoTestTime" class="btn btn-sm input-group-btn" onclick="onTestTime()">Auto test time</button>
                                         <label class="form-checkbox input-sm">
                                             <input id="chkProcess" type="checkbox" class="input-sm" name="process" checked onclick="onDisplayProcess()"><i class="form-icon"></i>Display process of solution
                                         </label>
@@ -79,7 +80,7 @@
                                                             </ul>
                                                         <h4>Known issues</h4>
                                                             <p>
-                                                                The fewer mazes the program is solving, the quicker it is. Besides that, the four canvases are freshed only when all four algorithms have completed one iteration.
+                                                                The fewer mazes the program is solving, the quicker it is. Besides that, the four canvases are refreshed only when all four algorithms have completed one iteration.
                                                                     So the time consumed by each algorithm doesn't accurately reflect how much faster/slower they are compared with one another.</li>              
                                                             </p>
                                                     </div>
