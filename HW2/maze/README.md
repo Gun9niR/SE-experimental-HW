@@ -36,6 +36,7 @@ The webpage is hosted [here](https://gun9nir.github.io/Maze-Game/).
 
 ## 11/16
 - Reduce .js file size by about 40%
+- Remove the invisible side bar on the right
 
 # To-do
 - [x] Try out A-star algorithm
