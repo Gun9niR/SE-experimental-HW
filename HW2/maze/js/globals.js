@@ -1,0 +1,11 @@
+var ctxs, wid, hei, cols, rows, mazes, stacks = [], start = [], end = [],grid = 8, padding = 16, s, density=0.5, count=4;
+var startTime;
+var finished = 0;
+var isInterrupting;
+var interrupted = 0;
+var prev;
+var pq;
+var iterations = [];
+const numOfTests = 100;
+var totalIterations;
+var testingTime = false;

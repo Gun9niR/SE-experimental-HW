@@ -34,6 +34,9 @@ The webpage is hosted [here](https://gun9nir.github.io/Maze-Game/).
 - Collect test result in terms of time.
 - Fix typo
 
+## 11/16
+- Reduce .js file size by about 40%
+
 # To-do
 - [x] Try out A-star algorithm
 - [x] Use Euclidean distance as cost
