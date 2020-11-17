@@ -35,10 +35,10 @@ function onClear() {
 
 function onSltType() {
     if(document.getElementById("sltType").value == "Maze2") {
-        document.getElementById("density").removeAttribute("disabled");
+        $("#density").removeAttr("disabled");
     }
     else {
-        document.getElementById("density").setAttribute("disabled", "disabled");
+        $("#density").prop("disabled", true);
     }
 }
 
@@ -49,11 +49,8 @@ function onInterrupt() {
 
 function onTestIter() {
     onClear();
-    document.getElementById("btnCreateMaze").setAttribute("disabled", "disabled");
-    document.getElementById("btnClear").setAttribute("disabled", "disabled");
-    document.getElementById("btnAutoTest").setAttribute("disabled", "disabled");
-    document.getElementById("btnAutoTestTime").setAttribute("disabled", "disabled");
-    document.getElementById("btnInterrupt").removeAttribute("disabled");
+    $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").prop("disabled", true);
+    $("#btnInterrupt").removeAttr("disabled");
     totalIterations = new Array(count);
     for(var i = 0; i < count; i++) {
         totalIterations[i] = 1;
@@ -114,11 +111,8 @@ function onDisplayProcess() {
 function onTestTime() {
     testingTime = true;
     onClear();
-    document.getElementById("btnCreateMaze").setAttribute("disabled", "disabled");
-    document.getElementById("btnClear").setAttribute("disabled", "disabled");
-    document.getElementById("btnAutoTest").setAttribute("disabled", "disabled");
-    document.getElementById("btnAutoTestTime").setAttribute("disabled", "disabled");
-    document.getElementById("btnInterrupt").removeAttribute("disabled");
+    $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").prop("disabled", true);
+    $("#btnInterrupt").removeAttr("disabled");
     var mazeType = document.getElementById("sltType").value;
     totalIterations = new Array(count);
     for(var i = 0; i < count; i++) {
@@ -148,9 +142,8 @@ function onCreate() {
         resetNDisplayLabel(i);
     }
 
-    document.getElementById("btnCreateMaze").setAttribute("disabled", "disabled");
-    document.getElementById("btnClear").setAttribute("disabled", "disabled");
-    document.getElementById("btnAutoTest").setAttribute("disabled", "disabled");
+    $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").prop("disabled", true);
+
     wid = document.getElementById("maze1").offsetWidth - padding; 
     hei = 400;
 
@@ -211,9 +204,6 @@ function onCreate() {
             createMaze2NonAni();
         }
     }
+    $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
     document.getElementById( "canvas1" ).addEventListener( "mousedown", getCursorPos, false );
-    document.getElementById("btnCreateMaze").removeAttribute("disabled");
-    document.getElementById("btnClear").removeAttribute("disabled");
-    document.getElementById("btnAutoTest").removeAttribute("disabled");
-    document.getElementById("btnAutoTestTime").removeAttribute("disabled");
 }

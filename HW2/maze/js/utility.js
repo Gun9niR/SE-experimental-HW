@@ -93,11 +93,8 @@ function resetNDisplayLabel(index) {
 function incrFinished() {
     finished++;
     if(finished == count) {
-        document.getElementById("btnClear").removeAttribute("disabled");
-        document.getElementById("btnCreateMaze").removeAttribute("disabled");
-        document.getElementById("btnAutoTest").removeAttribute("disabled");
-        document.getElementById("btnAutoTestTime").removeAttribute("disabled");
-        document.getElementById("btnInterrupt").setAttribute("disabled", "disabled");
+        $("#btnInterrupt").prop("disabled", true);
+        $("#btnClear, #btnCreateMaze, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
         finished = 0;
     }
 }
@@ -105,11 +102,8 @@ function incrFinished() {
 function interrupt() {
     interrupted++;
     if(interrupted == count || testingTime) {
-        document.getElementById("btnInterrupt").setAttribute("disabled", "disabled");
-        document.getElementById("btnClear").removeAttribute("disabled");
-        document.getElementById("btnCreateMaze").removeAttribute("disabled");
-        document.getElementById("btnAutoTest").removeAttribute("disabled");
-        document.getElementById("btnAutoTestTime").removeAttribute("disabled");
+        $("#btnInterrupt").prop("disabled", true);
+        $("#btnClear, #btnCreateMaze, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
         interrupted = 0;
         finished = 0;
         isInterrupting = false;

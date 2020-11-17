@@ -107,7 +107,7 @@ A* ( h = (Manhattan Distance) ^ 2 )|63057|259%
 
 
 # Comparison of algorithms (Time)
-Efficiency is measured by the time consumed by solving the same maze with different starting and finishing points 100 times..
+Efficiency is measured by the time consumed by solving the same maze with different starting and finishing points 100 times.
 
 ## Maze1
 ### Size=20*20
