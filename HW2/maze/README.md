@@ -38,6 +38,14 @@ The webpage is hosted [here](https://gun9nir.github.io/Maze-Game/).
 - Reduce .js file size by about 40%
 - Remove the invisible side bar on the right
 
+# 11/17
+- Tidy up the code
+
+# 11/21
+- Remove the second algorithm, since it's highly similar to the third
+- Search in 8 directions when solving Maze2
+- Further tidy up the code
+
 # To-do
 - [x] Try out A-star algorithm
 - [x] Use Euclidean distance as cost
@@ -47,10 +55,11 @@ The webpage is hosted [here](https://gun9nir.github.io/Maze-Game/).
 - [x] Add an "Interrupt" button
 - [x] Remove side bar and replace it with a promt
 - [x] Count the number of blocks visited besides time
-- [ ] Tidy up the code
+- [x] Tidy up the code
 - [x] Togglable animation
 - [x] Add auto test to evaluate all algorithms in terms of number of iterations
 - [x] Add auto test to evaluate all algorithms in terms of time
+- [x] Update code to match the new code base
 
 # Comparison of algorithms (Iteration)
 Efficiency is measured by the number of iterations for solving the same maze with different starting and finishing points 100 times.
@@ -160,4 +169,4 @@ DFS with Euclidean distance as cost|5791.37|144%
 A* ( h = (Manhattan Distance) ^ 2 )|2029.36|412%
 
 # Other thoughts
-- Using deep learning to obtain H for each maze & starting/finishing point may accelerate A* even more.
+- Use multithreading to solve Maze2. That is, to pick out a few points on/near the straight line between starting and finishing point and solve each segment in a separate thread.

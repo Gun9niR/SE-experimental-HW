@@ -56,19 +56,6 @@ function init() {
     }
 }
 
-function initAstar(index) {
-    pq = new PriorityQueue();
-    pq.enqueue({x: start[index].x, y: start[index].y, g: 0, f: getH(start[index], end[index])});
-    prev = new Array(cols);
-    for(let i = 0; i < prev.length; i++) {
-        prev[i] = new Array(rows);
-        for(let j = 0; j < prev.length; j++) {
-            prev[i] = {x: -1, y: -1};
-        }
-    }
-    prev[start[index].x][start[3].y] = {x: start[index].x, y: start[index].y};
-}
-
 function createCanvas(count) {
 
     ctxs = new Array(count);
@@ -109,176 +96,53 @@ function getNeighbours( index, sx, sy, a ) {
     return n;
 }
 
-function getFNeighbours( index, sx, sy, a, offset) {
+function getFNeighbours( index, sx, sy, a, mazeType) {
     var n = [];
-    if( sx - 1 + offset> 0 && mazes[index][sx - 1][sy] % 8 == a ) {
-        n.push( { x:sx - 1, y:sy } );
-    }
-    if( sx + 2 - offset < cols && mazes[index][sx + 1][sy] % 8 == a ) {
-        n.push( { x:sx + 1, y:sy } );
-    }
-    if( sy - 1 + offset > 0 && mazes[index][sx][sy - 1] % 8 == a ) {
-        n.push( { x:sx, y:sy - 1 } );
-    }
-    if( sy + 2 - offset < rows && mazes[index][sx][sy + 1] % 8 == a ) {
-        n.push( { x:sx, y:sy + 1 } );
+    var step;
+    var steps = mazeType ? octSteps : quadSteps;
+    const len = mazeType ? octSteps.length : quadSteps.length;
+    for (let i = 0; i < len; i++) {
+        step = steps[i];
+        
+        if(sx + step.dx >= 0 && sx + step.dx < cols && sy + step.dy >= 0 && sy + step.dy < rows &&
+            mazes[index][sx + step.dx][sy + step.dy] % 8 == a){
+            n.push({x: sx + step.dx, y: sy + step.dy});
+        }
     }
     return n;
 }
 
-function getFNeighboursNew(index, sx, sy, a) {
-
+function getFNeighboursNew(index, sx, sy, a, mazeType) {
     var n = [];
-    var dx = end[index].x - sx;
-    var dy = end[index].y - sy;
+    var min = cols > rows ? cols : rows;
+    var len = mazeType ? octSteps.length : quadSteps.length;
+    var step;
+    var steps = mazeType ? octSteps : quadSteps;
+    min =  2 * min * min;
 
-    if(dx >= 0) {
-        if(dy >= 0) {
-            if(dy >= dx) {
-                if(sy + 1 < rows && mazes[index][sx][sy + 1] % 8 == a) {
-                    n.push({x:sx, y:sy + 1})
-                }
-                if(sx + 1 < cols && mazes[index][sx + 1][sy] % 8 == a) {
-                    n.push({x:sx + 1, y:sy})
-                }
-                if(sx > 0 && mazes[index][sx - 1][sy] % 8 == a) {
-                    n.push({x:sx - 1, y:sy})
-                }
-                if(sy > 0 && mazes[index][sx][sy - 1] % 8 == a) {
-                    n.push({x:sx, y:sy - 1})
-                }
-            }
-            else {
-                if(sx + 1 < cols && mazes[index][sx + 1][sy] % 8 == a) {
-                    n.push({x:sx + 1, y:sy})
-                }
-                if(sy + 1 < rows && mazes[index][sx][sy + 1] % 8 == a) {
-                    n.push({x:sx, y:sy + 1})
-                }
-                if(sy > 0 && mazes[index][sx][sy - 1] % 8 == a) {
-                    n.push({x:sx, y:sy - 1})
-                }
-                if(sx > 0 && mazes[index][sx - 1][sy] % 8 == a) {
-                    n.push({x:sx - 1, y:sy})
-                }
-            }
-        }
-        else {
-            if(-1 * dy >= dx) {
-                if(sy > 0 && mazes[index][sx][sy - 1] % 8 == a) {
-                    n.push({x:sx, y:sy - 1})
-                }
-                if(sx + 1 < cols && mazes[index][sx + 1][sy] % 8 == a) {
-                    n.push({x:sx + 1, y:sy})
-                }
-                if(sx > 0 && mazes[index][sx - 1][sy] % 8 == a) {
-                    n.push({x:sx - 1, y:sy})
-                }
-                if(sy + 1 < rows && mazes[index][sx][sy + 1] % 8 == a) {
-                    n.push({x:sx, y:sy + 1})
-                }
-            }
-            else {
-                if(sx + 1 < cols && mazes[index][sx + 1][sy] % 8 == a) {
-                    n.push({x:sx + 1, y:sy})
-                }
-                if(sy > 0 && mazes[index][sx][sy - 1] % 8 == a) {
-                    n.push({x:sx, y:sy - 1})
-                }
-                if(sy + 1 < rows && mazes[index][sx][sy + 1] % 8 == a) {
-                    n.push({x:sx, y:sy + 1})
-                }
-                if(sx > 0 && mazes[index][sx - 1][sy] % 8 == a) {
-                    n.push({x:sx - 1, y:sy})
-                }
+    var pos = -1;
+
+    for (let i = 0; i < len; i ++) {
+        step = steps[i];
+
+        if(sx + step.dx > -1 && sx + step.dx < cols && sy + step.dy > -1 && sy + step.dy < rows &&
+            mazes[index][sx + step.dx][sy + step.dy] % 8 == a){
+
+            distance = (end[index].x - sx - step.dx) * (end[index].x - sx - step.dx) + 
+                        (end[index].y - sy - step.dy) * (end[index].y - sy - step.dy);
+    
+            if (distance < min) {
+                pos = i;
+                min = distance;
             }
         }
     }
-    else {
-        if(dy < 0) {
-            if(dy <= dx) {
-                if(sy > 0 && mazes[index][sx][sy - 1] % 8 == a) {
-                    n.push({x:sx, y:sy - 1})
-                }
-                if(sx > 0 && mazes[index][sx - 1][sy] % 8 == a) {
-                    n.push({x:sx - 1, y:sy})
-                }
-                if(sx + 1 < cols && mazes[index][sx + 1][sy] % 8 == a) {
-                    n.push({x:sx + 1, y:sy})
-                }
-                if(sy + 1 < rows && mazes[index][sx][sy + 1] % 8 == a) {
-                    n.push({x:sx, y:sy + 1})
-                }
-            }
-            else {
-                if(sx > 0 && mazes[index][sx - 1][sy] % 8 == a) {
-                    n.push({x:sx - 1, y:sy})
-                }
-                if(sy > 0 && mazes[index][sx][sy - 1] % 8 == a) {
-                    n.push({x:sx, y:sy - 1})
-                }
-                if(sy + 1 < rows && mazes[index][sx][sy + 1] % 8 == a) {
-                    n.push({x:sx, y:sy + 1})
-                }
-                if(sx + 1 < cols && mazes[index][sx + 1][sy] % 8 == a) {
-                    n.push({x:sx + 1, y:sy})
-                }
-            }
-        }
-        else {
-            if(dy >= dx * -1) {
-                if(sy + 1 < rows && mazes[index][sx][sy + 1] % 8 == a) {
-                    n.push({x:sx, y:sy + 1})
-                }
-                if(sx > 0 && mazes[index][sx - 1][sy] % 8 == a) {
-                    n.push({x:sx - 1, y:sy})
-                }
-                if(sx + 1 < cols && mazes[index][sx + 1][sy] % 8 == a) {
-                    n.push({x:sx + 1, y:sy})
-                }
-                if(sy > 0 && mazes[index][sx][sy - 1] % 8 == a) {
-                    n.push({x:sx, y:sy - 1})
-                }
-            }
-            else {
-                if(sx > 0 && mazes[index][sx - 1][sy] % 8 == a) {
-                    n.push({x:sx - 1, y:sy})
-                }
-                if(sy + 1 < rows && mazes[index][sx][sy + 1] % 8 == a) {
-                    n.push({x:sx, y:sy + 1})
-                }
-                if(sy > 0 && mazes[index][sx][sy - 1] % 8 == a) {
-                    n.push({x:sx, y:sy - 1})
-                }
-                if(sx + 1 < cols && mazes[index][sx + 1][sy] % 8 == a) {
-                    n.push({x:sx + 1, y:sy})
-                }
-            }
-        }
+
+    if (pos > -1) {
+        n.push({x: sx + steps[pos].dx, y: sy + steps[pos].dy});
     }
 
     return n; 
-}
-
-function getFNeighboursEuclid(index, sx, sy, a, offset) {
-    var n = [], dist = [];
-    if( sx - 1 + offset> 0 && mazes[index][sx - 1][sy] % 8 == a ) {
-        n.push( { x:sx - 1, y:sy } );
-        dist.push(euclidDist({x: sx - 1, y: sy}, end[index]));
-    }
-    if( sx + 2 - offset < cols && mazes[index][sx + 1][sy] % 8 == a ) {
-        n.push( { x:sx + 1, y:sy } );
-        dist.push(euclidDist({x: sx + 1, y: sy}, end[index]));
-    }
-    if( sy - 1 + offset > 0 && mazes[index][sx][sy - 1] % 8 == a ) {
-        n.push( { x:sx, y:sy - 1 } );
-        dist.push(euclidDist({x: sx, y: sy - 1}, end[index]));
-    }
-    if( sy + 2 - offset < rows && mazes[index][sx][sy + 1] % 8 == a ) {
-        n.push( { x:sx, y:sy + 1 } );
-        dist.push(euclidDist({x: sx, y: sy + 1}, end[index]));
-    }
-    return insertionSort(n, dist);
 }
 
 function finishAlgorithm(index, test, mazeType, curAlgorithm, nextAlgorithm) {
@@ -389,14 +253,14 @@ function solveMazeNew(index, test, mazeType) {
         return;
     }
     try {
-        finishAlgorithm(index, test, mazeType, solveMazeNew, solveMazeEuclid);
+        finishAlgorithm(index, test, mazeType, solveMazeNew, solveMazeAstar);
     } catch(finished) {
         return;
     }
     
     incrLabel(index, test);
 
-    var neighbours = getFNeighboursNew( index, start[index].x, start[index].y, 0 );
+    var neighbours = getFNeighboursNew(index, start[index].x, start[index].y, 0, mazeType);
     if( neighbours.length ) {
         stacks[index].push( start[index] );
         start[index] = neighbours[0];
@@ -404,7 +268,7 @@ function solveMazeNew(index, test, mazeType) {
     } else {
         if(mazeType == 1) {
             try {
-                chkNoSolution(index, test, mazeType, solveMazeNew, solveMazeEuclid);
+                chkNoSolution(index, test, mazeType, solveMazeNew, solveMazeAstar);
             } catch(err) {
                 return;
             }
@@ -416,48 +280,9 @@ function solveMazeNew(index, test, mazeType) {
     if(document.getElementById("chkProcess").checked) {
         drawMaze(index);
     }
-    // request a frame for animation, BUT THE CALLBACK FUNCTION WON'T BE CALLED IMMEDIATELY, hence the stack to simulate DFS
+    
     requestAnimationFrame( function() {
         solveMazeNew(index, test, mazeType);
-    } );
-}
-
-function solveMazeEuclid(index, test, mazeType) {
-    if(isInterrupting) {
-        interrupt();
-        return;
-    }
-
-    try {
-        finishAlgorithm(index, test, mazeType, solveMazeEuclid, solveMazeAstar);
-    } catch(finished) {
-        return;
-    }
-
-    incrLabel(index, test);
-
-    var neighbours = getFNeighboursEuclid(index, start[index].x, start[index].y, 0, mazeType);
-    if( neighbours.length ) {
-        stacks[index].push( start[index] );
-        start[index] = neighbours[0];
-        mazes[index][start[index].x][start[index].y] = 2;
-    } else {
-        if(mazeType == 1) {
-            try {
-                chkNoSolution(index, test, mazeType, solveMazeEuclid, solveMazeAstar);
-            } catch(err) {
-                return;
-            }
-        }
-        mazes[index][start[index].x][start[index].y] = 4;
-        start[index] = stacks[index].pop();
-    }
- 
-    if(document.getElementById("chkProcess").checked) {
-        drawMaze(index);
-    }
-    requestAnimationFrame( function() {
-        solveMazeEuclid(index, test, mazeType);
     } );
 }
 
@@ -488,7 +313,7 @@ function solveMazeAstar(index, test, mazeType) {
                 throw 0;
             }
         }
-    }
+    }  
     if(isInterrupting) {
         interrupt();
         return;
@@ -557,7 +382,7 @@ function solveMazeAstar(index, test, mazeType) {
     } else {
         mazes[index][cur.x][cur.y] = 9;
     }
-    var neighbours = getFNeighbours( index, start[index].x, start[index].y, 0, mazeType);
+    var neighbours = getFNeighbours(index, start[index].x, start[index].y, 0, mazeType);
     if(neighbours.length) {
         for(let i = 0; i < neighbours.length; i++) {
             pq.enqueue({x: neighbours[i].x, y: neighbours[i].y, g: cur.g + 1,f: (cur.g + 1) + getH(neighbours[i], end[index])});
@@ -580,7 +405,6 @@ function getCursorPos( event ) {
     var x = Math.floor( ( event.clientX - rect.left ) / grid / s), 
         y = Math.floor( ( event.clientY - rect.top  ) / grid / s);
     
-    // if the end poi
     if(end[0].x != -1) {
         onClear();
     }
@@ -613,17 +437,15 @@ function getCursorPos( event ) {
         if(mazeType == "Maze1") {
             solveMaze(0, 0, 0);
             solveMazeNew(1, 0, 0);
-            solveMazeEuclid(2, 0, 0);
         } else {
             solveMaze(0, 0, 1);
             solveMazeNew(1, 0, 1);
-            solveMazeEuclid(2, 0, 1);
         }
-        initAstar(3);
+        initAstar(2);
         if(mazeType == "Maze1") {
-            solveMazeAstar(3, 0, 0);
+            solveMazeAstar(2, 0, 0);
         } else {
-            solveMazeAstar(3, 0, 1);
+            solveMazeAstar(2, 0, 1);
         }
     }
 }
@@ -766,7 +588,6 @@ function drawNewStartNEnd(index) {
 function testNext(index, method, mazeType) {
     switch(method) {
         case solveMazeNew:
-        case solveMazeEuclid:
             drawNewStartNEnd(index);
             startTime = performance.now();
             method(index, 2, mazeType);

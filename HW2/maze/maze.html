@@ -54,7 +54,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="content col-text-left">
-                                                        <p>The game is simple. Choose the size and type of the maze, selecet starting and finishing point, and the program will try to solve it 4 ways.</p>
+                                                        <p>The game is simple. Choose the size and type of the maze, selecet starting and finishing point, and the program will try to solve it 3 ways.</p>
                                                         
                                                         <h4>Features</h4>
                                                             <ul>
@@ -66,7 +66,7 @@
                                                                 </li>
                                                                 <li>Customizable maze size: Set the number of <strong>Columns & Rows</strong> in corresponding text boxes. For the second type of maze, <strong>Density</strong> determines the proportion of accessible area in the maze</li>
                                                                 <li>Togglable animation: Toggle on/off <strong>Animated</strong> to display/hide the process of generating the maze. Toggle on/off <strong>Display process of solution</strong> to display/hide the process of solving the maze.</li>
-                                                                <li>Solve the maze in 4 ways: The four algorithms are listed above the canvas. After generating the maze, select the starting/finishing point by <strong>clicking on the first canvas</strong>.</li>
+                                                                <li>Solve the maze in 3 ways: The three algorithms are listed above the canvas. After generating the maze, select the starting/finishing point by <strong>clicking on the first canvas</strong>.</li>
                                                                 <li>Clear current solution: Click <strong>Clear</strong> to remove current solution.</li>
                                                                 <li>Interrupt solving process: Tired of waiting? Click <strong>Interrupt</strong> to stop the program.</li>
                                                                 <li>Auto test: Click <strong>Auto test</strong> to test the speed of each algorithm. The program will randomly select a set of starting/finishing points and solve the maze for 100 times, recording the time & total number of iterations for each algorithm.</li>
@@ -84,7 +84,7 @@
                                                             </ul>
                                                         <h4>Known issues</h4>
                                                             <p>
-                                                                The fewer mazes the program is solving, the quicker it is. Besides that, the four canvases are refreshed only when all four algorithms have completed one iteration.
+                                                                The fewer mazes the program is solving, the quicker it is. Besides that, the three canvases are refreshed only when all three algorithms have completed one iteration.
                                                                     So the time consumed by each algorithm doesn't accurately reflect how much faster/slower they are compared with one another.</li>              
                                                             </p>
                                                     </div>
@@ -103,12 +103,9 @@
                                 <span id="timer1" class="column col-6">Time: 0.00s    Iterations: 0</span>
                                 <span id="timer2" class="column col-6">Time: 0.00s    Iterations: 0</span>
                                 <hr class="column col-12">
-                                <span class="column col-6">DFS with Euclidean distance as cost</span>
-                                <span class="column col-6">A* ( h = (Manhattan Distance) ^ 2 )</span>
-                                <div id="maze3" class="column col-6"></div>
-                                <div id="maze4" class="column col-6"></div>
-                                <span id="timer3" class="column col-6">Time: 0.00s    Iterations: 0</span>
-                                <span id="timer4" class="column col-6">Time: 0.00s    Iterations: 0</span> 
+                                <span class="column col-12">A* ( h = (Manhattan Distance) ^ 2 )</span>
+                                <div id="maze3" class="column col-12"></div>
+                                <span id="timer3" class="column col-12">Time: 0.00s    Iterations: 0</span>
                             </div>
                         </div>
                     </div>

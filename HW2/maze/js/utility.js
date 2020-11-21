@@ -21,26 +21,6 @@ function getH(p1, p2) {
     return Math.pow(manhattanDist(p1, p2), 2);
 }
 
-function euclidDist(p1, p2) {
-    return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
-}
-
-function insertionSort(n, dist) {
-    for(var i = 1; i < n.length; i++) {
-        const key = dist[i];
-        const p = n[i];
-        var j = i - 1;
-        while(j >= 0 && dist[j] > key) {
-            n[j + 1] = n[j];
-            dist[j + 1] = dist[j];
-            j--;
-        }
-        dist[j + 1] = key;
-        n[j + 1] = p;
-    }
-    return n;
-}
-
 function drawMaze(index) {
     for( var i = 0; i < cols; i++ ) {
         for( var j = 0; j < rows; j++ ) {
@@ -54,8 +34,6 @@ function drawMaze(index) {
                 case 8: ctxs[index].fillStyle = "blue"; break;
                 case 9: ctxs[index].fillStyle = "gold"; break;
             }
-            // first two parameters: top-left point
-            // next two: width and height
             ctxs[index].fillRect( grid * i, grid * j, grid, grid  );
         }
     }
@@ -109,4 +87,17 @@ function interrupt() {
         isInterrupting = false;
     }
     testingTime = false;
+}
+
+function initAstar(index) {
+    pq = new PriorityQueue();
+    pq.enqueue({x: start[index].x, y: start[index].y, g: 0, f: getH(start[index], end[index])});
+    prev = new Array(cols);
+    for(let i = 0; i < prev.length; i++) {
+        prev[i] = new Array(rows);
+        for(let j = 0; j < prev.length; j++) {
+            prev[i] = {x: -1, y: -1};
+        }
+    }
+    prev[start[index].x][start[index].y] = {x: start[index].x, y: start[index].y};
 }

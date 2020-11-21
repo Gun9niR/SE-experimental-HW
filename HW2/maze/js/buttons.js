@@ -65,26 +65,16 @@ function onTestIter() {
         if(mazeType == "Maze1") {
             solveMaze(0, 1, 0);
             solveMazeNew(1, 1, 0);
-            solveMazeEuclid(2, 1, 0);
         } else {
             solveMaze(0, 1, 1);
             solveMazeNew(1, 1, 1);
-            solveMazeEuclid(2, 1, 1);
         }
-        pq = new PriorityQueue();
-        pq.enqueue({x: start[3].x, y: start[3].y, g: 0, f: getH(start[3], end[3])});
-        prev = new Array(cols);
-        for(var i = 0; i < prev.length; i++) {
-            prev[i] = new Array(rows);
-            for(var j = 0; j < prev.length; j++) {
-                prev[i] = {x: -1, y: -1};
-            }
-        }
-        prev[start[3].x][start[3].y] = {x: start[3].x, y: start[3].y};
+        
+        initAstar(2);
         if(mazeType == "Maze1") {
-            solveMazeAstar(3, 1, 0);
+            solveMazeAstar(2, 1, 0);
         } else {
-            solveMazeAstar(3, 1, 1);
+            solveMazeAstar(2, 1, 1);
         }
 }
 

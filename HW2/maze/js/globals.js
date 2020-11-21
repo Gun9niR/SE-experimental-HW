@@ -1,4 +1,4 @@
-var ctxs, wid, hei, cols, rows, mazes, stacks = [], start = [], end = [],grid = 8, padding = 16, s, density=0.5, count=4;
+var ctxs, wid, hei, cols, rows, mazes, stacks = [], start = [], end = [],grid = 8, padding = 16, s, density=0.5, count=3;
 var startTime;
 var finished = 0;
 var isInterrupting;
@@ -9,3 +9,5 @@ var iterations = [];
 const numOfTests = 100;
 var totalIterations;
 var testingTime = false;
+var quadSteps=[{dx: 0, dy: -1}, {dx: 1, dy: 0}, {dx: 0, dy: 1}, {dx: -1, dy: 0}];
+var octSteps=[{dx: -1, dy: -1}, {dx: 0, dy: -1}, {dx: 1, dy: -1}, {dx: 1, dy: 0}, {dx: 1, dy: 1}, {dx: 0, dy: 1}, {dx: -1, dy: 1}, {dx: -1, dy: 0}];
