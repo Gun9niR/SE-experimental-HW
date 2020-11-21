@@ -465,6 +465,8 @@ function createMaze1() {
             }
             
             start[0].x = start[0].y = -1;
+
+            $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
             return;
         }
         start[0] = stacks[0].pop();
@@ -513,6 +515,7 @@ function createMaze1NonAni(ctx) {
                 }
                 
                 start[0].x = start[0].y = -1;
+                $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
                 return;
             }
             start[0] = stacks[0].pop();
@@ -549,6 +552,7 @@ function createMaze2(ctx) {
 
     if(start[0].x == (cols - 1) && start[0].y == (rows - 1)){
         start[0].x = start[0].y = -1;
+        $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
         return;
     }
 
@@ -576,6 +580,7 @@ function createMaze2NonAni() {
         drawMaze(i);
     }
     start[0].x = start[0].y = -1;
+    $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
 }
 
 function drawNewStartNEnd(index) {

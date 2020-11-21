@@ -194,6 +194,6 @@ function onCreate() {
             createMaze2NonAni();
         }
     }
-    $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
+    
     document.getElementById( "canvas1" ).addEventListener( "mousedown", getCursorPos, false );
 }
