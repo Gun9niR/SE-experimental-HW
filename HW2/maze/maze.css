@@ -1,3 +1,7 @@
-.sidebar{font-size: .7rem;}
-.col-text-center{text-align: center;}
-.col-text-left{text-align: left;}
+body { 
+    padding-top: 65px; 
+}
+
+.text-center {
+    text-align: center;
+}

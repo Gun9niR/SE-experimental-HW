@@ -7,7 +7,7 @@ The webpage is hosted [here](https://gun9nir.github.io/Maze-Game/).
 - ~~Clicking "create" when solving the puzzle will cause messed-up color~~
 - ~~Clicking "clear" when solving the puzzle will only clear existing path~~
 - ~~All the `createMaze` functions and `getCursorPos()` are prone to change of `count`~~
-- Code is extremely repetitive and messy (I did it, not the teacher)
+- ~~Code is extremely repetitive and messy (I did it, not the teacher)~~
 
 # Change log
 ## 11/12
@@ -46,6 +46,9 @@ The webpage is hosted [here](https://gun9nir.github.io/Maze-Game/).
 - Search in 8 directions when solving Maze2
 - Further tidy up the code
 
+# 11/22
+- Refine UI using bootstrap
+
 # To-do
 - [x] Try out A-star algorithm
 - [x] Use Euclidean distance as cost
@@ -60,6 +63,7 @@ The webpage is hosted [here](https://gun9nir.github.io/Maze-Game/).
 - [x] Add auto test to evaluate all algorithms in terms of number of iterations
 - [x] Add auto test to evaluate all algorithms in terms of time
 - [x] Update code to match the new code base
+- [x] Refine UI
 
 # Comparison of algorithms (Iteration)
 Efficiency is measured by the number of iterations for solving the same maze with different starting and finishing points 100 times.

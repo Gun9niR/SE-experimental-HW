@@ -71,8 +71,9 @@ function resetNDisplayLabel(index) {
 function incrFinished() {
     finished++;
     if(finished == count) {
-        $("#btnInterrupt").prop("disabled", true);
-        $("#btnClear, #btnCreateMaze, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
+        $("#btnInterrupt").prop("class", "nav-link disabled");
+        $("#btnClear, #btnCreateMaze").prop("class", "nav-link");
+        $("#testDropDown").prop("class", "nav-link dropdown-toggle");
         finished = 0;
     }
 }
@@ -80,8 +81,9 @@ function incrFinished() {
 function interrupt() {
     interrupted++;
     if(interrupted == count || testingTime) {
-        $("#btnInterrupt").prop("disabled", true);
-        $("#btnClear, #btnCreateMaze, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
+        $("#btnInterrupt").prop("class", "nav-link disabled");
+        $("#btnClear, #btnCreateMaze").prop("class", "nav-link");
+        $("#testDropDown").prop("class", "nav-link dropdown-toggle");
         interrupted = 0;
         finished = 0;
         isInterrupting = false;

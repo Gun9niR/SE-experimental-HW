@@ -49,8 +49,9 @@ function onInterrupt() {
 
 function onTestIter() {
     onClear();
-    $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").prop("disabled", true);
-    $("#btnInterrupt").removeAttr("disabled");
+    $("#btnCreateMaze, #btnClear").prop("class", "nav-link disabled")
+    $("#testDropDown").prop("class", "nav-link dropdown-toggle disabled");
+    $("#btnInterrupt").prop("class", "nav-link");
     totalIterations = new Array(count);
     for(var i = 0; i < count; i++) {
         totalIterations[i] = 1;
@@ -101,8 +102,9 @@ function onDisplayProcess() {
 function onTestTime() {
     testingTime = true;
     onClear();
-    $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").prop("disabled", true);
-    $("#btnInterrupt").removeAttr("disabled");
+    $("#btnCreateMaze, #btnClear").prop("class", "nav-link disabled")
+    $("#testDropDown").prop("class", "nav-link dropdown-toggle disabled");
+    $("#btnInterrupt").prop("class", "nav-link");
     var mazeType = document.getElementById("sltType").value;
     totalIterations = new Array(count);
     for(var i = 0; i < count; i++) {
@@ -132,7 +134,8 @@ function onCreate() {
         resetNDisplayLabel(i);
     }
 
-    $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").prop("disabled", true);
+    $("#btnCreateMaze, #btnClear, #btnInterrupt").prop("class", "nav-link disabled")
+    $("#testDropDown").prop("class", "nav-link dropdown-toggle disabled");
 
     wid = document.getElementById("maze1").offsetWidth - padding; 
     hei = 400;

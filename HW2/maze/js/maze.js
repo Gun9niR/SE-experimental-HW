@@ -44,16 +44,13 @@ class PriorityQueue {
 }
 
 function init() {
-    createCanvas(count);
-    document.getElementById("btnInterrupt").setAttribute("disabled", "disabled");
-    document.getElementById("btnClear").setAttribute("disabled", "disabled");
-    document.getElementById("btnInterrupt").setAttribute("disabled", "disabled");
-    document.getElementById("btnAutoTest").setAttribute("disabled", "disabled");
-    document.getElementById("btnAutoTestTime").setAttribute("disabled", "disabled");
+    $("#btnInterrupt, #btnClear").prop("class", "nav-link disabled");
+    $("#testDropDown").prop("class", "nav-link dropdown-toggle disabled")
     for(let i = 0; i < count; i++) {
         start.push({x: -1, y: -1});
         end.push({x: -1, y: -1});
     }
+    createCanvas(count);
 }
 
 function createCanvas(count) {
@@ -63,7 +60,7 @@ function createCanvas(count) {
 
     for(let i = 0; i < count; i++) {
         var canvas = document.createElement( "canvas" );
-        wid = document.getElementById("maze" + (i + 1)).offsetWidth - padding;
+        wid = 400;
         hei = 400;
         
         canvas.width = wid; canvas.height = 400;
@@ -429,10 +426,9 @@ function getCursorPos( event ) {
         
         startTime = performance.now();
         endTime = new Array(count);
-        document.getElementById("btnClear").setAttribute("disabled", "disabled");
-        document.getElementById("btnCreateMaze").setAttribute("disabled", "disabled");
-        document.getElementById("btnInterrupt").removeAttribute("disabled");
-
+        $("#btnClear, #btnCreateMaze").prop("class", "nav-link disabled");
+        $("#btnInterrupt").prop("class", "nav-link");
+        $("#testDropDown").prop("class", "nav-link dropdown-toggle disabled");
         var mazeType = document.getElementById("sltType").value;
         if(mazeType == "Maze1") {
             solveMaze(0, 0, 0);
@@ -466,7 +462,8 @@ function createMaze1() {
             
             start[0].x = start[0].y = -1;
 
-            $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
+            $("#btnCreateMaze, #btnClear").prop("class", "nav-link");
+            $("#testDropDown").prop("class", "nav-link dropdown-toggle");
             return;
         }
         start[0] = stacks[0].pop();
@@ -515,7 +512,8 @@ function createMaze1NonAni(ctx) {
                 }
                 
                 start[0].x = start[0].y = -1;
-                $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
+                $("#btnCreateMaze, #btnClear").prop("class", "nav-link");
+                $("#testDropDown").prop("class", "nav-link dropdown-toggle")
                 return;
             }
             start[0] = stacks[0].pop();
@@ -535,7 +533,6 @@ function createMaze1NonAni(ctx) {
             stacks[0].push( start[0] )
         }    
     }
-    document.getElementById("btnCreateMaze").removeAttribute("disabled");
 }
 
 function createMaze2(ctx) {
@@ -552,7 +549,8 @@ function createMaze2(ctx) {
 
     if(start[0].x == (cols - 1) && start[0].y == (rows - 1)){
         start[0].x = start[0].y = -1;
-        $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
+        $("#btnCreateMaze, #btnClear").prop("class", "nav-link");
+        $("#testDropDown").prop("class", "nav-link dropdown-toggle")
         return;
     }
 
@@ -580,7 +578,8 @@ function createMaze2NonAni() {
         drawMaze(i);
     }
     start[0].x = start[0].y = -1;
-    $("#btnCreateMaze, #btnClear, #btnAutoTest, #btnAutoTestTime").removeAttr("disabled");
+    $("#btnCreateMaze, #btnClear").prop("class", "nav-link");
+    $("#testDropDown").prop("class", "nav-link dropdown-toggle")
 }
 
 function drawNewStartNEnd(index) {
